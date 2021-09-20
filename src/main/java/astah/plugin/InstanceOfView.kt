@@ -23,16 +23,20 @@ class InstanceOfView: JPanel(), IPluginExtraTabView, ProjectEventListener, IEnti
     val buttonRefreshInstances = JButton("Refresh Instances")
     val buttonSelectType = JButton("Select Type")
     val buttonSelectValue = JButton("Select Value")
+    val buttonGoToOccurrence = JButton("Go to Occurrence")
     val classes = mutableMapOf<IClass, Pair<List<IClass>, List<IClass>>>()
     val subclassListModel = DefaultListModel<IClass>()
     val subclassList =  JList(subclassListModel)
     val instanceListModel = DefaultListModel<String>()
     val instanceList =  JList(instanceListModel)
+    val occurrenceListModel = DefaultListModel<String>()
+    val occurrenceList = JList(occurrenceListModel)
     var selectedAttribute: IAttribute? = null
 
     val panelButtons = JPanel()
     val panelSelectType = JPanel()
     val panelSelectValue = JPanel()
+    val panelOccurrences = JPanel()
     val panel = JPanel()
 
 
@@ -85,11 +89,30 @@ class InstanceOfView: JPanel(), IPluginExtraTabView, ProjectEventListener, IEnti
         panel.add(panelSelectValue)
     }
 
+    private fun initOccurrences() {
+        panelOccurrences.layout = BoxLayout(panelOccurrences, BoxLayout.PAGE_AXIS)
+        val selectionModelForInstance = DefaultListSelectionModel()
+        selectionModelForInstance.selectionMode = ListSelectionModel.SINGLE_SELECTION
+        occurrenceList.selectionModel = selectionModelForInstance
+        val descriptionOccurrence = JLabel("Occurrences")
+        val occurrenceScroller = JScrollPane(occurrenceList)
+        occurrenceScroller.preferredSize = Dimension(180, 120)
+        descriptionOccurrence.alignmentX = Component.CENTER_ALIGNMENT
+        buttonGoToOccurrence.alignmentX = Component.CENTER_ALIGNMENT
+        occurrenceScroller.alignmentX = Component.CENTER_ALIGNMENT
+        panelOccurrences.add(descriptionOccurrence)
+        panelOccurrences.add(occurrenceScroller)
+        panelOccurrences.add(buttonGoToOccurrence)
+        buttonGoToOccurrence.addActionListener(this)
+        panel.add(panelOccurrences)
+    }
+
     init {
         panel.layout = GridLayout(1,3)
         initButtons()
         initSelectType()
         initSelectValue()
+        initOccurrences()
         add(panel)
         AstahAccessor.addProjectEventListener(this)
         AstahAccessor.addIDiagramEditorSelectionListener(this)
