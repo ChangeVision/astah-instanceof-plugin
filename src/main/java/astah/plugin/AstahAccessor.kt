@@ -263,4 +263,18 @@ object AstahAccessor {
             e.printStackTrace()
         }
     }
+
+    fun showInDiagramEditor(presentation: IPresentation) {
+        projectAccessor.viewManager.diagramViewManager.showInDiagramEditor(presentation)
+    }
+
+    fun selectDiagram(d : IDiagram) : Boolean {
+        return try {
+            projectAccessor.viewManager.diagramViewManager.open(d)
+            true
+        } catch (e : Exception) {
+            e.printStackTrace()
+            false
+        }
+    }
 }

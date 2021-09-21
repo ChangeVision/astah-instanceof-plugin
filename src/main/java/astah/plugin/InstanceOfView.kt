@@ -156,6 +156,14 @@ class InstanceOfView: JPanel(), IPluginExtraTabView, ProjectEventListener, IEnti
             buttonRefreshInstances -> {
                 initialize()
             }
+            buttonGoToOccurrence -> {
+                occurrenceList.selectedValue?.let { value ->
+                    value.presentations.firstOrNull()?.let { presentation ->
+                        AstahAccessor.selectDiagram(presentation.diagram)
+                        AstahAccessor.showInDiagramEditor(presentation)
+                    }
+                }
+            }
         }
     }
 
@@ -201,7 +209,8 @@ class InstanceOfView: JPanel(), IPluginExtraTabView, ProjectEventListener, IEnti
             if (element is IClass) {
                 AstahAccessor.getAllClasses().filter { clazz ->
                     AstahAccessor.getAttributes(clazz).any { it.initialValue == element.name } }.forEach {
-                    occurrenceListModel.addElement(it)
+                    if (!occurrenceListModel.contains(it))
+                        occurrenceListModel.addElement(it)
                 }
             }
         }
