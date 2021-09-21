@@ -29,7 +29,7 @@ class InstanceOfView: JPanel(), IPluginExtraTabView, ProjectEventListener, IEnti
     val subclassList =  JList(subclassListModel)
     val instanceListModel = DefaultListModel<String>()
     val instanceList =  JList(instanceListModel)
-    val occurrenceListModel = DefaultListModel<String>()
+    val occurrenceListModel = DefaultListModel<IClass>()
     val occurrenceList = JList(occurrenceListModel)
     var selectedAttribute: IAttribute? = null
 
@@ -187,6 +187,7 @@ class InstanceOfView: JPanel(), IPluginExtraTabView, ProjectEventListener, IEnti
         val selectedElements = AstahAccessor.getSelectedElements()
         subclassListModel.clear()
         instanceListModel.clear()
+        occurrenceListModel.clear()
         selectedElements?.firstOrNull()?.let { element ->
             if (element is IAttribute) {
                 element.type?.let { type ->
@@ -195,6 +196,12 @@ class InstanceOfView: JPanel(), IPluginExtraTabView, ProjectEventListener, IEnti
                     classes[type]?.second?.forEach { instanceListModel.addElement(it.name) }
                     instanceListModel.addElement("Unknown")
                     instanceListModel.addElement("Null")
+                }
+            }
+            if (element is IClass) {
+                AstahAccessor.getAllClasses().filter { clazz ->
+                    AstahAccessor.getAttributes(clazz).any { it.initialValue == element.name } }.forEach {
+                    occurrenceListModel.addElement(it)
                 }
             }
         }
