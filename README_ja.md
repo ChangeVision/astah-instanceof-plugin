@@ -33,7 +33,7 @@ How to Install
 ----------------
 
 0. 以下から .jarファイルをダウンロードしてください。
-   https://github.com/ChangeVision/astah-instanceof-plugin/releases/download/v1.0/instanceof-1.0-SNAPSHOT.jar
+   https://github.com/ChangeVision/astah-instanceof-plugin/releases/download/v1.1/instanceof-1.1.jar
 1. 上部メニュー[ヘルプ] – [プラグイン一覧] からプラグイン一覧を開きます。
 2. [インストール] ボタンをクリックし、jarファイルを選択してインストールしてください。
 3. astah* を再起動し、プロジェクトを開きます。
