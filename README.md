@@ -15,7 +15,8 @@ Description
 This is a plugin for supporting so-called "instance-of" relations among classes or blocks, which represent the one side is an instance of the other one.  The functions of the plugin include the followings. 
 - Support for drawing Instance-Of relations
 - Support for describing instances based on the defined Instance-Of relations
-- Support for setting initial values for attributes with the information on defined instances
+- Support for setting initial values for attributes with the information on defined instances 
+- Support for understanding occurrences of a given class as initial values
 
 Background
 ----------------
