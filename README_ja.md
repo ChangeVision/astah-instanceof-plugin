@@ -4,7 +4,7 @@ astah* Instance-Of プラグイン
 
 Version
 ----------------
-1.0
+1.1
 
 Available for
 ----------------
@@ -16,6 +16,7 @@ Description
 - Instance-Of関係の作成支援
 - Instance-Of関係に基づくインスタンス作成支援
 - 定義したインスタンスを利用した属性の初期値の設定支援
+- あるクラスに対して、そのインスタンスが属性の初期値として使われているクラスの一覧表示
 
 Background
 ----------------
@@ -47,11 +48,11 @@ How to Install
 
 ここで，関連関係を選択した状態で，「Make Instance-Of Relation」ボタンを押してみます。
 
-![sample image](doc/image002.png)
+![sample image](doc/image002b.png)
 
 すると，選択した関係に ≪instance-of≫ ステレオタイプが付加されていることが確認できると思います。これは，「AはBのインスタンスである」と読みます。
 
-![sample image](doc/image003.png)
+![sample image](doc/image003b.png)
 
 関連関係を複数選択してもまとめて付加されます。Instance-Of関係の表現は，依存関係を使う場合や，関連関係の名前で示す場合など，文献によって様々な方法が見られますが，ここでは，上記のような，片方の誘導可能性が定義された関連関係に対するステレオタイプによる表現を仮定します。
 
@@ -63,7 +64,7 @@ Instance-Of関係が定義されていた場合，定義側のクラスで定義
 
 ここで，クラスAを選択した状態で「Make Instance」ボタンを押してみましょう。つぎのようにInstance-Of関係の定義に従って，定義するクラスであるBの属性がAに引き継がれたのが分かると思います。
 
-![sample image](doc/image005.png)
+![sample image](doc/image005a.png)
 
 また例で示したとおり，属性に初期値が定義されている場合はそれも引き継ぎます。
 
@@ -79,7 +80,7 @@ Instance-Of関係が定義されていた場合，定義側のクラスで定義
 
 このような場合での前述の「Make Instance」ボタンを押すと，汎化関係にあるCの属性をもつインスタンスを作成してくれます。
 
-![sample image](doc/image009.png)
+![sample image](doc/image009a.png)
 
 ただ，ここで，クラスDは，Cから引き継いだ属性attribute2は，初期値としてfalseであるという特徴をもっていたと仮定します。そのような状況を記述したい場合には，やはり継承クラスの方にも属性を書きたいと思います。そのようなときに，「Inherit from superclass」ボタンを使ってください。前述の，
 
@@ -87,7 +88,7 @@ Instance-Of関係が定義されていた場合，定義側のクラスで定義
 
 の状況でDを選択した状態で「Inherit from superclass」ボタンを押してみてください。
 
-![sample image](doc/image010a.png)
+![sample image](doc/image010b.png)
 
 属性が継承できます。ここで，例えば，Dのattribute2には初期値falseを定義し，さきほどのどのように，DとInstance-Of関係を持つEを導入し，「Make Instance」ボタンを押せば，EにはDにおいて定義した初期値をもつ属性が導入されます。
 
@@ -104,11 +105,11 @@ Instance-Of関係が定義されていた場合，定義側のクラスで定義
 
 このモデルにおいては，Kの値として，少なくともK1とK2が存在していることが分かります。それでは属性attribute1を選択してみましょう。
 
-![sample image](doc/image014.png)
+![sample image](doc/image014a.png)
 
 Instance-OfタブのDefined instancesと書かれたところに，UnknownとNullとともに，定義したK1とK2の値が表示されているのが確認できます。そこで，例えば，K1を選択し，「Select Value」ボタンを押してみてください。
 
-![sample image](doc/image015.png)
+![sample image](doc/image015a.png)
 
 attribute1 に初期値としてK1が設定されたと思います。Unknown及びNullはどのような型の属性に対しても使用できる値として予め候補に含まれています。
 
@@ -131,11 +132,29 @@ attribute1 に初期値としてK1が設定されたと思います。Unknown及
 
 さて，このような状況でよくあるのが，クラスPの属性attribute1の型はXとして定義しているが，そのインスタンスであるyの属性attribute1については，より限定した型である場合があります。そこで，yの属性attribute1の型を簡単に制限する機能が本プラグインで提供されます。yの属性attribute1を選択してみてください。
 
-![sample image](doc/image019.png)
+![sample image](doc/image019b.png)
 
 「Possible types」というところに，もともとのattribute1の型であるXのサブクラスとして定義されているYとZがリストアップされています。例えば，Zを選んで「Select Type」ボタンを押してください。
 
-![sample image](doc/image020.png)
+![sample image](doc/image020a.png)
+
+### あるクラスに対して、そのインスタンスが属性の初期値として使われているクラスの把握支援
+
+上記機能を使って、モデリングが進むと、あるクラスに対して、そのクラスのインスタンスが属性の初期値として使われているクラスを把握したくなることがあります。例えば、次のような状況で、Jの定義は実際には全然別のところにあると想定すると、値としてK1がどこで使われているか、K1を定義した図上だけからはすぐにはわからないような状況です。
+
+![sample image](doc/image021.png)
+
+このようなときは、K1を図上で選択してみてください。
+
+![sample image](doc/image022.png)
+
+ここで、Occurrencesの窓のところに、K1が初期値として使用されているクラスの一覧が表示されます。ここで、この一覧からJを選択して、 Go to Occurrenceを押下してみてください。
+
+![sample image](doc/image023.png)
+
+この例では同じ図上に存在している図要素ですが、もし図が異なれば、その図を開き、さらに、選択されたクラスを中央に表示します。
+
+このような機能によって、あるクラスに対して、そのインスタンスが属性の初期値として使われているクラスの把握が容易になります。
 
 # モデル例
 
