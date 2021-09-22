@@ -186,7 +186,13 @@ class InstanceOfView: JPanel(), IPluginExtraTabView, ProjectEventListener, IEnti
 
     override fun activated() = initialize()
     override fun deactivated() = Unit
-    override fun projectOpened(p0: ProjectEvent?) = initialize()
+
+    override fun projectOpened(p0: ProjectEvent?) {
+        subclassListModel.clear()
+        instanceListModel.clear()
+        occurrenceListModel.clear()
+        initialize()
+    }
     override fun projectClosed(p0: ProjectEvent?) = Unit
     override fun projectChanged(p0: ProjectEvent?) = Unit
     override fun diagramSelectionChanged(p0: IDiagramEditorSelectionEvent?) = Unit
